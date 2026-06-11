@@ -1,36 +1,104 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 MarketingAI - AI-Powered Social Media Management Suite
 
-## Getting Started
+MarketingAI is a premium, state-of-the-art Next.js web application designed to help startups, content creators, and marketing teams automate, schedule, and optimize their social media strategy. Driven by Gemini AI models, Firebase backend orchestration, and beautiful animations, the platform acts as your virtual social media manager.
 
-First, run the development server:
+---
 
+## 📸 Project Showcase
+
+### 🎨 Beautiful & Interactive Landing Page
+Modern, responsive, and dark-themed hero landing page introducing the application.
+![MarketingAI Landing Page](public/screenshots/landing.png)
+
+---
+
+### 📊 Centralized Analytics Dashboard
+Track content performance metrics (Reach, Likes, Comments, and Engagement Rate) in real-time. Includes an **AI Content Scout** for automated trend identification.
+![MarketingAI Analytics Dashboard](public/screenshots/dashboard.png)
+
+---
+
+### ✍️ AI-Powered Content Creation
+Generate platform-tailored post descriptions, hashtags, and captions using Gemini AI. Preview how your post will look live on target social networks (e.g. Instagram).
+![Content Creation Screen](public/screenshots/create-content.png)
+
+---
+
+### ✂️ Built-in Visual Studio & Image Editor
+Edit and crop your uploaded marketing assets to ideal sizes (Square 1:1, Port 4:5, Wide 16:9) and apply filters like Sepia, B&W, and Vivid.
+![Visual Studio Image Editor](public/screenshots/editor.png)
+
+---
+
+### 📅 Interactive Content Calendar
+Schedule draft and live posts visually on a clean, responsive calendar grid to schedule publication at peak engagement times.
+![Content Calendar Grid](public/screenshots/calendar.png)
+
+---
+
+## ✨ Key Features
+
+1. **AI Content Studio**: Enter a prompt or upload an image, and our Gemini Multimodal Integration will auto-generate copy, hashtags, and tags tailored to your selected brand voice.
+2. **Visual Studio & Filter Suite**: Edit, rotate, and crop visual assets directly inside the dashboard. Apply beautiful filters to guarantee premium quality assets.
+3. **Live Platform Previews**: Real-time mockup overlays matching actual UI layouts (Instagram, LinkedIn, Twitter/X) so you know exactly how posts will look.
+4. **Trend Navigator**: Live region-targeted trending topic discovery (India, US, UK, and Global) to ensure your posts align with viral events.
+5. **Tone & Quality Guard**: Real-time AI check to ensure posts adhere to brand safety, tone consistency, and spelling rules before going live.
+6. **Smart Content Calendar**: Manage, reschedule, and visualize all draft and published content.
+
+---
+
+## 🛠️ Technology Stack
+
+- **Framework**: [Next.js 16 (App Router)](https://nextjs.org)
+- **Frontend library**: [React 19](https://react.dev)
+- **Styling**: [TailwindCSS v4](https://tailwindcss.com) & [Framer Motion](https://www.framer.com/motion/) (animations)
+- **Database & Storage**: [Firebase & Firestore](https://firebase.google.com)
+- **Authentication**: [Firebase Auth (Google OAuth)](https://firebase.google.com/docs/auth)
+- **AI Integrations**: Google Gemini AI Developer SDK (Multimodal & Text models)
+- **Icons**: [Lucide React](https://lucide.dev)
+
+---
+
+## ⚙️ Local Installation & Setup
+
+Follow these steps to run the application locally on your machine:
+
+### 1. Clone the repository
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/aslam0246/Marketing-AI.git
+cd Marketing-AI
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Install dependencies
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. Setup Environment Variables
+Create a file named `.env.local` in the root of the project and populate it with your environment config:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```env
+# Firebase Configuration
+NEXT_PUBLIC_FIREBASE_API_KEY=your_api_key
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_auth_domain
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_storage_bucket
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
 
-## Learn More
+# AI API Keys
+GEMINI_API_KEY=your_gemini_api_key
+HUGGINGFACE_API_KEY=your_hf_api_key
+```
 
-To learn more about Next.js, take a look at the following resources:
+### 4. Run the development server
+```bash
+npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Open [http://localhost:3000](http://localhost:3000) in your browser to view the application.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📄 License
+This project is licensed under the MIT License.
