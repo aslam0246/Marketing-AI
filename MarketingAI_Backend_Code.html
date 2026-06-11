@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MarketingAI — Backend Code</title>
+    <style>
+        :root {
+            --primary: #7c3aed;
+            --bg: #09090f;
+            --surface: #12121e;
+            --surface2: #1a1a2e;
+            --text: #e2e8f0;
+            --muted: #94a3b8;
+            --border: #2a2a40
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.7
+        }
+
+        @media print {
+            body {
+                background: #fff;
+                color: #000
+            }
+
+            pre {
+                border: 1px solid #ccc
+            }
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 40px 24px
+        }
+
+        .header {
+            text-align: center;
+            padding: 50px 0 36px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 44px
+        }
+
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #059669, #0ea5e9);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            padding: 4px 14px;
+            border-radius: 99px;
+            margin-bottom: 16px;
+            text-transform: uppercase
+        }
+
+        h1 {
+            font-size: 38px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6ee7b7, #93c5fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text
+        }
+
+        .header p {
+            color: var(--muted);
+            font-size: 16px;
+            margin-top: 10px
+        }
+
+        .toc {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 44px
+        }
+
+        .toc h2 {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 14px
+        }
+
+        .toc ol {
+            padding-left: 20px
+        }
+
+        .toc li {
+            margin: 5px 0
+        }
+
+        .toc a {
+            color: #6ee7b7;
+            text-decoration: none;
+            font-size: 14px
+        }
+
+        .section {
+            margin-bottom: 58px
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border)
+        }
+
+        .section-title span {
+            background: linear-gradient(135deg, #059669, #0ea5e9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text
+        }
+
+        .sub {
+            font-size: 17px;
+            font-weight: 700;
+            margin: 26px 0 10px;
+            color: #6ee7b7
+        }
+
+        p {
+            color: var(--muted);
+            margin-bottom: 12px;
+            font-size: 14px
+        }
+
+        .label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin: 18px 0 5px
+        }
+
+        pre {
+            background: #07070f;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+            overflow-x: auto;
+            font-size: 13px;
+            line-height: 1.65;
+            margin-bottom: 22px
+        }
+
+        code {
+            font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+            color: #e2e8f0
+        }
+
+        .kw {
+            color: #f472b6
+        }
+
+        .fn {
+            color: #60a5fa
+        }
+
+        .str {
+            color: #34d399
+        }
+
+        .cm {
+            color: #4b5563;
+            font-style: italic
+        }
+
+        .tp {
+            color: #fbbf24
+        }
+
+        .nr {
+            color: #fb923c
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 13px
+        }
+
+        th {
+            background: var(--surface2);
+            color: var(--muted);
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 1px;
+            padding: 9px 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border)
+        }
+
+        td {
+            padding: 9px 12px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text);
+            vertical-align: top
+        }
+
+        .tag {
+            display: inline-block;
+            background: rgba(16, 185, 129, .15);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, .3);
+            border-radius: 99px;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 1px 9px;
+            margin: 2px
+        }
+
+        .hl {
+            background: rgba(16, 185, 129, .08);
+            border-left: 3px solid #059669;
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            margin: 14px 0
+        }
+
+        .hl p {
+            margin: 0;
+            font-size: 13px
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="header">
+            <div class="badge">Backend Code Report</div>
+            <h1>MarketingAI — Backend</h1>
+            <p>Next.js API Routes · Firebase Admin SDK · Google Gemini · Instagram &amp; LinkedIn APIs</p>
+        </div>
+
+        <div class="toc">
+            <h2>Contents</h2>
+            <ol>
+                <li><a href="#structure">File Structure</a></li>
+                <li><a href="#firebase">Firebase Admin Setup</a></li>
+                <li><a href="#posts">Posts API (CRUD + DELETE)</a></li>
+                <li><a href="#cron">Auto-Publisher Cron Route</a></li>
+                <li><a href="#analytics">Analytics Sync + Follower Snapshots</a></li>
+                <li><a href="#agent">Strategy Agent (Observe → Analyze → Plan)</a></li>
+                <li><a href="#gemini">Gemini AI Client (Fallback Chain)</a></li>
+                <li><a href="#connectors">Social Connectors (Instagram + LinkedIn)</a></li>
+                <li><a href="#auth">OAuth Routes (Instagram + LinkedIn)</a></li>
+                <li><a href="#schema">Firestore Database Schema</a></li>
+            </ol>
+        </div>
+
+        <!-- 1. STRUCTURE -->
+        <div class="section" id="structure">
+            <div class="section-title"><span>1.</span> Backend File Structure</div>
+            <pre><code>app/api/
+├── posts/
+│   ├── route.ts              <span class="cm">← GET all posts, POST create post</span>
+│   └── [id]/route.ts         <span class="cm">← GET, PATCH, DELETE single post</span>
+├── publish/now/route.ts      <span class="cm">← Immediate publish trigger</span>
+├── cron/publish-scheduled/   <span class="cm">← Auto-publisher (called every 60s)</span>
+├── analytics/
+│   ├── sync/route.ts         <span class="cm">← Metrics sync + follower snapshots</span>
+│   ├── sentiment/route.ts    <span class="cm">← Gemini comment sentiment analysis</span>
+│   └── timing/route.ts       <span class="cm">← Best posting time analysis</span>
+├── agent/
+│   ├── observe/route.ts      <span class="cm">← Observer module trigger</span>
+│   ├── analyze/route.ts      <span class="cm">← Analyzer module trigger</span>
+│   ├── plan/route.ts         <span class="cm">← Planner module (GET + POST)</span>
+│   ├── scout/route.ts        <span class="cm">← AI Content Scout</span>
+│   ├── tone-guard/route.ts   <span class="cm">← Brand tone validation</span>
+│   ├── suggest-reply/route.ts<span class="cm">← AI comment reply generation</span>
+│   └── post-reply/route.ts   <span class="cm">← Post reply to platform</span>
+├── gemini/generate/route.ts  <span class="cm">← Caption generation endpoint</span>
+├── trends/route.ts           <span class="cm">← Trending topics for user niche</span>
+├── auth/
+│   ├── instagram/route.ts          <span class="cm">← OAuth redirect start</span>
+│   ├── instagram/callback/route.ts <span class="cm">← Token exchange + save</span>
+│   ├── linkedin/route.ts           <span class="cm">← OAuth redirect start</span>
+│   └── linkedin/callback/route.ts  <span class="cm">← Token exchange + save</span>
+└── user/profile/route.ts     <span class="cm">← Get/update business profile</span>
+
+lib/
+├── firebase-admin.ts         <span class="cm">← Admin SDK init (Firestore, Auth, Storage)</span>
+├── firebase.ts               <span class="cm">← Client SDK init</span>
+├── gemini-client.ts          <span class="cm">← AI text + image generation with fallbacks</span>
+├── social-media-manager.ts   <span class="cm">← Publish/metrics abstraction layer</span>
+└── agent/
+    ├── observer.ts           <span class="cm">← Post enrichment module</span>
+    ├── analyzer.ts           <span class="cm">← Pattern detection module</span>
+    ├── planner.ts            <span class="cm">← Gemini strategy generation</span>
+    ├── scoring.ts            <span class="cm">← Composite score formula</span>
+    ├── weights.ts            <span class="cm">← Adaptive weight system</span>
+    └── follower-snapshot.ts  <span class="cm">← Daily follower count saver</span></code></pre>
+        </div>
+
+        <!-- 2. FIREBASE ADMIN -->
+        <div class="section" id="firebase">
+            <div class="section-title"><span>2.</span> Firebase Admin Setup</div>
+            <p>All API routes use the Firebase Admin SDK to verify JWT tokens and read/write Firestore. The SDK is
+                initialized once using environment variable credentials.</p>
+            <div class="label">lib/firebase-admin.ts</div>
+            <pre><code><span class="kw">import</span> { initializeApp, getApps, getApp, cert } <span class="kw">from</span> <span class="str">"firebase-admin/app"</span>;
+<span class="kw">import</span> { getFirestore } <span class="kw">from</span> <span class="str">"firebase-admin/firestore"</span>;
+<span class="kw">import</span> { getAuth } <span class="kw">from</span> <span class="str">"firebase-admin/auth"</span>;
+<span class="kw">import</span> { getStorage } <span class="kw">from</span> <span class="str">"firebase-admin/storage"</span>;
+
+<span class="cm">// Singleton pattern — only initialize once across hot reloads</span>
+<span class="kw">if</span> (<span class="fn">getApps</span>().length === <span class="nr">0</span>) {
+  <span class="fn">initializeApp</span>({
+    credential: <span class="fn">cert</span>({
+      projectId:   process.env.<span class="fn">NEXT_PUBLIC_FIREBASE_PROJECT_ID</span>,
+      clientEmail: process.env.<span class="fn">FIREBASE_ADMIN_CLIENT_EMAIL</span>,
+      privateKey:  process.env.<span class="fn">FIREBASE_ADMIN_PRIVATE_KEY</span>
+                     ?.replace(<span class="str">/\\n/g</span>, <span class="str">"\n"</span>), <span class="cm">// Fix escaped newlines</span>
+    }),
+    storageBucket: process.env.<span class="fn">NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET</span>,
+  });
+}
+
+<span class="kw">export const</span> adminDb      = <span class="fn">getFirestore</span>();
+<span class="kw">export const</span> adminStorage = <span class="fn">getStorage</span>();
+<span class="kw">export const</span> adminAuth    = <span class="fn">getAuth</span>();</code></pre>
+
+            <div class="hl">
+                <p>Every API route authenticates requests by verifying a Firebase JWT using
+                    <code>getAuth().verifyIdToken(token)</code> extracted from the
+                    <code>Authorization: Bearer &lt;token&gt;</code> header.</p>
+            </div>
+        </div>
+
+        <!-- 3. POSTS API -->
+        <div class="section" id="posts">
+            <div class="section-title"><span>3.</span> Posts API</div>
+
+            <div class="sub">GET /api/posts — List all posts</div>
+            <pre><code><span class="kw">export async function</span> <span class="fn">GET</span>(req: <span class="tp">Request</span>) {
+  <span class="kw">const</span> token = req.headers.<span class="fn">get</span>(<span class="str">"Authorization"</span>)!.<span class="fn">split</span>(<span class="str">"Bearer "</span>)[<span class="nr">1</span>];
+  <span class="kw">const</span> { uid } = <span class="kw">await</span> <span class="fn">getAuth</span>().<span class="fn">verifyIdToken</span>(token);
+
+  <span class="kw">const</span> snapshot = <span class="kw">await</span> adminDb.<span class="fn">collection</span>(<span class="str">"posts"</span>)
+    .<span class="fn">where</span>(<span class="str">"userId"</span>, <span class="str">"=="</span>, uid)
+    .<span class="fn">orderBy</span>(<span class="str">"createdAt"</span>, <span class="str">"desc"</span>)
+    .<span class="fn">get</span>();
+
+  <span class="kw">const</span> posts = snapshot.docs.<span class="fn">map</span>(doc =&gt; ({ id: doc.id, ...doc.<span class="fn">data</span>() }));
+  <span class="kw">return</span> NextResponse.<span class="fn">json</span>({ posts });
+}</code></pre>
+
+            <div class="sub">POST /api/posts — Create post/draft</div>
+            <pre><code><span class="kw">export async function</span> <span class="fn">POST</span>(req: <span class="tp">Request</span>) {
+  <span class="kw">const</span> { uid } = <span class="kw">await</span> <span class="fn">verifyToken</span>(req);
+  <span class="kw">const</span> body = <span class="kw">await</span> req.<span class="fn">json</span>();
+
+  <span class="kw">const</span> docRef = <span class="kw">await</span> adminDb.<span class="fn">collection</span>(<span class="str">"posts"</span>).<span class="fn">add</span>({
+    ...body,
+    userId:    uid,
+    status:    body.status || <span class="str">"draft"</span>,
+    createdAt: <span class="kw">new</span> <span class="fn">Date</span>().<span class="fn">toISOString</span>(),
+  });
+
+  <span class="kw">return</span> NextResponse.<span class="fn">json</span>({ id: docRef.id }, { status: <span class="nr">201</span> });
+}</code></pre>
+
+            <div class="sub">PATCH /api/posts/[id] — Update (schedule, edit content)</div>
+            <pre><code><span class="kw">export async function</span> <span class="fn">PATCH</span>(req, { params }) {
+  <span class="kw">const</span> { id } = <span class="kw">await</span> params;
+  <span class="kw">const</span> { uid } = <span class="kw">await</span> <span class="fn">verifyToken</span>(req);
+  <span class="kw">const</span> body = <span class="kw">await</span> req.<span class="fn">json</span>();
+
+  <span class="kw">const</span> docRef = adminDb.<span class="fn">collection</span>(<span class="str">"posts"</span>).<span class="fn">doc</span>(id);
+  <span class="kw">const</span> doc = <span class="kw">await</span> docRef.<span class="fn">get</span>();
+  <span class="kw">if</span> (doc.<span class="fn">data</span>()?.userId !== uid)
+    <span class="kw">return</span> NextResponse.<span class="fn">json</span>({ error: <span class="str">"Forbidden"</span> }, { status: <span class="nr">403</span> });
+
+  <span class="kw">await</span> docRef.<span class="fn">update</span>({ ...body, updatedAt: <span class="kw">new</span> <span class="fn">Date</span>().<span class="fn">toISOString</span>() });
+  <span class="kw">return</span> NextResponse.<span class="fn">json</span>({ success: <span class="kw">true</span> });
+}</code></pre>
+
+            <div class="sub">DELETE /api/posts/[id] — Delete with ownership guard</div>
+            <pre><code><span class="kw">export async function</span> <span class="fn">DELETE</span>(req, { params }) {
+  <span class="kw">const</span> { id } = <span class="kw">await</span> params;
+  <span class="kw">const</span> { uid } = <span class="kw">await</span> <span class="fn">verifyToken</span>(req);
+
+  <span class="kw">const</span> docRef = adminDb.<span class="fn">collection</span>(<span class="str">"posts"</span>).<span class="fn">doc</span>(id);
+  <span class="kw">const</span> doc = <span class="kw">await</span> docRef.<span class="fn">get</span>();
+  <span class="kw">if</span> (!doc.exists)
+    <span class="kw">return</span> NextResponse.<span class="fn">json</span>({ error: <span class="str">"Not found"</span> }, { status: <span class="nr">404</span> });
+  <span class="kw">if</span> (doc.<span class="fn">data</span>()?.userId !== uid)
+    <span class="kw">return</span> NextResponse.<span class="fn">json</span>({ error: <span class="str">"Forbidden"</span> }, { status: <span class="nr">403</span> });
+
+  <span class="kw">await</span> docRef.<span class="fn">delete</span>();
+  <span class="kw">return</span> NextResponse.<span class="fn">json</span>({ success: <span class="kw">true</span> });
+}</code></pre>
+        </div>
+
+        <!-- 4. CRON -->
+        <div class="section" id="cron">
+            <div class="section-title"><span>4.</span> Auto-Publisher Cron Route</div>
+            <p>Queries Firestore for all posts with <code>status == "scheduled"</code> and
+                <code>scheduledAt &lt;= now</code>, then calls <code>SocialMediaManager.publishPost()</code> for each.
+                The dashboard polls this every 60 seconds.</p>
+            <div class="label">app/api/cron/publish-scheduled/route.ts</div>
+            <pre><code><span class="kw">export async function</span> <span class="fn">GET</span>() {
+  <span class="kw">const</span> now = <span class="kw">new</span> <span class="fn">Date</span>().<span class="fn">toISOString</span>();
+
+  <span class="kw">const</span> snapshot = <span class="kw">await</span> adminDb.<span class="fn">collection</span>(<span class="str">"posts"</span>)
+    .<span class="fn">where</span>(<span class="str">"status"</span>,      <span class="str">"=="</span>,  <span class="str">"scheduled"</span>)
+    .<span class="fn">where</span>(<span class="str">"scheduledAt"</span>, <span class="str">"&lt;="</span>, now)
+    .<span class="fn">get</span>();
+
+  <span class="kw">if</span> (snapshot.empty)
+    <span class="kw">return</span> NextResponse.<span class="fn">json</span>({ message: <span class="str">"No posts due"</span>, count: <span class="nr">0</span> });
+
+  <span class="kw">let</span> published = <span class="nr">0</span>, failed = <span class="nr">0</span>;
+  <span class="kw">for</span> (<span class="kw">const</span> doc <span class="kw">of</span> snapshot.docs) {
+    <span class="kw">try</span> {
+      <span class="kw">await</span> SocialMediaManager.<span class="fn">publishPost</span>(doc.id, doc.<span class="fn">data</span>().userId);
+      published++;
+    } <span class="kw">catch</span> (e) {
+      console.<span class="fn">error</span>(<span class="str">`[CRON] Failed ${doc.id}:`</span>, e); failed++;
+    }
+  }
+  <span class="kw">return</span> NextResponse.<span class="fn">json</span>({ published, failed });
+}</code></pre>
+
+            <div class="label">SocialMediaManager — Idempotent publishPost()</div>
+            <pre><code><span class="kw">static async</span> <span class="fn">publishPost</span>(postId: <span class="tp">string</span>, userId: <span class="tp">string</span>) {
+  <span class="kw">const</span> postRef = adminDb.<span class="fn">collection</span>(<span class="str">"posts"</span>).<span class="fn">doc</span>(postId);
+  <span class="kw">const</span> post = (await postRef.<span class="fn">get</span>()).<span class="fn">data</span>()!;
+
+  <span class="cm">// Idempotency — skip if already published or mid-publish</span>
+  <span class="kw">if</span> ([<span class="str">"published"</span>,<span class="str">"publishing"</span>].<span class="fn">includes</span>(post.status))
+    <span class="kw">return</span> { success: <span class="kw">true</span>, skipped: <span class="kw">true</span> };
+
+  <span class="cm">// Lock against race conditions</span>
+  <span class="kw">await</span> postRef.<span class="fn">update</span>({ status: <span class="str">"publishing"</span> });
+
+  <span class="cm">// Route to correct platform connector</span>
+  <span class="kw">const</span> connector = <span class="kw">await</span> <span class="fn">getConnector</span>(post.platform, userId);
+  <span class="kw">const</span> platformPostId = <span class="kw">await</span> connector.<span class="fn">publish</span>(post.content, post.imageUrl);
+
+  <span class="kw">await</span> postRef.<span class="fn">update</span>({
+    status: <span class="str">"published"</span>, platformPostId,
+    publishedAt: <span class="kw">new</span> <span class="fn">Date</span>().<span class="fn">toISOString</span>()
+  });
+  <span class="kw">return</span> { success: <span class="kw">true</span>, platformPostId };
+}</code></pre>
+        </div>
+
+        <!-- 5. ANALYTICS -->
+        <div class="section" id="analytics">
+            <div class="section-title"><span>5.</span> Analytics Sync + Follower Snapshots</div>
+            <div class="label">app/api/analytics/sync/route.ts</div>
+            <pre><code><span class="kw">export async function</span> <span class="fn">POST</span>(req: <span class="tp">Request</span>) {
+  <span class="kw">const</span> { uid } = <span class="kw">await</span> <span class="fn">verifyToken</span>(req);
+
+  <span class="cm">// 1. Sync post metrics from platform APIs</span>
+  <span class="kw">const</span> posts = <span class="kw">await</span> adminDb.<span class="fn">collection</span>(<span class="str">"posts"</span>)
+    .<span class="fn">where</span>(<span class="str">"userId"</span>, <span class="str">"=="</span>, uid)
+    .<span class="fn">where</span>(<span class="str">"status"</span>, <span class="str">"=="</span>, <span class="str">"published"</span>).<span class="fn">get</span>();
+
+  <span class="kw">await</span> Promise.<span class="fn">allSettled</span>(
+    posts.docs.<span class="fn">map</span>(doc =&gt; SocialMediaManager.<span class="fn">syncPostMetrics</span>(doc.id, uid))
+  );
+
+  <span class="cm">// 2. Save follower snapshots for each connected platform</span>
+  <span class="kw">const</span> connections = <span class="kw">await</span> adminDb
+    .<span class="fn">collection</span>(<span class="str">"users"</span>).<span class="fn">doc</span>(uid)
+    .<span class="fn">collection</span>(<span class="str">"connections"</span>).<span class="fn">get</span>();
+
+  <span class="kw">for</span> (<span class="kw">const</span> conn <span class="kw">of</span> connections.docs) {
+    <span class="kw">const</span> platform  = conn.id;       <span class="cm">// "instagram" | "linkedin"</span>
+    <span class="kw">const</span> data      = conn.<span class="fn">data</span>();
+    <span class="kw">let</span>   count     = <span class="nr">0</span>;
+
+    <span class="kw">if</span> (platform === <span class="str">"instagram"</span>) {
+      <span class="kw">const</span> { InstagramConnector } = <span class="kw">await import</span>(<span class="str">"@/lib/social/instagram"</span>);
+      count = <span class="kw">await new</span> <span class="fn">InstagramConnector</span>(data.igAccountId, data.accessToken)
+                .<span class="fn">getFollowerCount</span>();
+    } <span class="kw">else if</span> (platform === <span class="str">"linkedin"</span>) {
+      <span class="kw">const</span> { LinkedInConnector } = <span class="kw">await import</span>(<span class="str">"@/lib/social/linkedin"</span>);
+      count = <span class="kw">await new</span> <span class="fn">LinkedInConnector</span>(data.linkedinId, data.accessToken)
+                .<span class="fn">getFollowerCount</span>();
+    }
+    <span class="kw">if</span> (count &gt; <span class="nr">0</span>) <span class="kw">await</span> <span class="fn">saveFollowerSnapshot</span>(uid, count, platform);
+  }
+  <span class="kw">return</span> NextResponse.<span class="fn">json</span>({ success: <span class="kw">true</span> });
+}</code></pre>
+
+            <div class="label">lib/agent/follower-snapshot.ts — Daily Deduplication</div>
+            <pre><code><span class="kw">export async function</span> <span class="fn">saveFollowerSnapshot</span>(
+  userId: <span class="tp">string</span>, followerCount: <span class="tp">number</span>, platform: <span class="tp">string</span>
+) {
+  <span class="kw">const</span> today = <span class="kw">new</span> <span class="fn">Date</span>().<span class="fn">toISOString</span>().<span class="fn">slice</span>(<span class="nr">0</span>, <span class="nr">10</span>); <span class="cm">// "YYYY-MM-DD"</span>
+
+  <span class="cm">// Check for existing snapshot today (deduplication)</span>
+  <span class="kw">const</span> existing = <span class="kw">await</span> adminDb.<span class="fn">collection</span>(<span class="str">"follower_snapshots"</span>)
+    .<span class="fn">where</span>(<span class="str">"userId"</span>,   <span class="str">"=="</span>, userId)
+    .<span class="fn">where</span>(<span class="str">"platform"</span>, <span class="str">"=="</span>, platform)
+    .<span class="fn">where</span>(<span class="str">"date"</span>,     <span class="str">"=="</span>, today)
+    .<span class="fn">limit</span>(<span class="nr">1</span>).<span class="fn">get</span>();
+
+  <span class="kw">if</span> (!existing.empty) {
+    <span class="cm">// Update today's existing record</span>
+    <span class="kw">await</span> existing.docs[<span class="nr">0</span>].ref.<span class="fn">update</span>({ followerCount });
+  } <span class="kw">else</span> {
+    <span class="cm">// Create new daily snapshot</span>
+    <span class="kw">await</span> adminDb.<span class="fn">collection</span>(<span class="str">"follower_snapshots"</span>).<span class="fn">add</span>({
+      userId, platform, followerCount, date: today,
+      recordedAt: <span class="kw">new</span> <span class="fn">Date</span>().<span class="fn">toISOString</span>()
+    });
+  }
+}</code></pre>
+        </div>
+
+        <!-- 6. AGENT -->
+        <div class="section" id="agent">
+            <div class="section-title"><span>6.</span> Strategy Agent Pipeline</div>
+            <p>Three sequential modules: Observer enriches posts, Analyzer detects patterns, Planner calls Gemini to
+                generate strategy.</p>
+
+            <div class="sub">Module 1 — Observer (lib/agent/observer.ts)</div>
+            <pre><code><span class="kw">export async function</span> <span class="fn">observeAllPosts</span>(uid: <span class="tp">string</span>) {
+  <span class="kw">const</span> posts = <span class="kw">await</span> <span class="fn">getPublishedPosts</span>(uid);
+
+  <span class="kw">for</span> (<span class="kw">const</span> post <span class="kw">of</span> posts) {
+    <span class="kw">const</span> m = post.metrics || {};
+
+    <span class="cm">// Weighted engagement score</span>
+    <span class="kw">const</span> engagementScore =
+      (<span class="nr">0.5</span> * (m.likes    || <span class="nr">0</span>)) +
+      (<span class="nr">0.3</span> * (m.comments || <span class="nr">0</span>)) +
+      (<span class="nr">0.2</span> * (m.shares   || <span class="nr">0</span>));
+
+    <span class="kw">const</span> date         = <span class="kw">new</span> <span class="fn">Date</span>(post.publishedAt);
+    <span class="kw">const</span> postHour     = date.<span class="fn">getHours</span>();
+    <span class="kw">const</span> postDayOfWk  = date.<span class="fn">getDay</span>();
+    <span class="kw">const</span> hashtags     = (post.content.<span class="fn">match</span>(/<span class="str">#[\w]+</span>/g) || []);
+    <span class="kw">const</span> category     = <span class="fn">categorize</span>(post.content);
+
+    <span class="kw">await</span> adminDb.<span class="fn">collection</span>(<span class="str">"posts"</span>).<span class="fn">doc</span>(post.id).<span class="fn">update</span>({
+      engagementScore, postHour, postDayOfWeek: postDayOfWk,
+      hashtags, contentCategory: category
+    });
+  }
+}</code></pre>
+
+            <div class="sub">Module 2 — Analyzer (lib/agent/analyzer.ts)</div>
+            <pre><code><span class="kw">export async function</span> <span class="fn">analyzePosts</span>(uid: <span class="tp">string</span>) {
+  <span class="kw">const</span> posts = <span class="kw">await</span> <span class="fn">getEnrichedPosts</span>(uid);
+
+  <span class="cm">// Build hourly engagement array [0..23]</span>
+  <span class="kw">const</span> hourlyEng = <span class="kw">new</span> <span class="fn">Array</span>(<span class="nr">24</span>).<span class="fn">fill</span>(<span class="nr">0</span>);
+  <span class="kw">const</span> hourCounts = <span class="kw">new</span> <span class="fn">Array</span>(<span class="nr">24</span>).<span class="fn">fill</span>(<span class="nr">0</span>);
+  posts.<span class="fn">forEach</span>(p =&gt; {
+    hourlyEng[p.postHour]   += p.engagementScore;
+    hourCounts[p.postHour]  += <span class="nr">1</span>;
+  });
+  <span class="kw">const</span> avgHourly = hourlyEng.<span class="fn">map</span>((s, i) =&gt; hourCounts[i] ? s/hourCounts[i] : <span class="nr">0</span>);
+  <span class="kw">const</span> bestHour  = avgHourly.<span class="fn">indexOf</span>(Math.<span class="fn">max</span>(...avgHourly));
+
+  <span class="cm">// Platform + tone breakdown</span>
+  <span class="kw">const</span> byPlatform = <span class="fn">groupAvg</span>(posts, <span class="str">"platform"</span>);
+  <span class="kw">const</span> byTone     = <span class="fn">groupAvg</span>(posts, <span class="str">"tone"</span>);
+
+  <span class="kw">await</span> adminDb.<span class="fn">collection</span>(<span class="str">"agent_insights"</span>).<span class="fn">doc</span>(uid).<span class="fn">set</span>({
+    bestHour, avgHourly,
+    bestPlatform: <span class="fn">maxKey</span>(byPlatform),
+    bestTone:     <span class="fn">maxKey</span>(byTone),
+    platformBreakdown: byPlatform,
+    toneBreakdown:     byTone,
+    updatedAt:    <span class="kw">new</span> <span class="fn">Date</span>().<span class="fn">toISOString</span>()
+  });
+}</code></pre>
+
+            <div class="sub">Module 3 — Planner (lib/agent/planner.ts)</div>
+            <pre><code><span class="kw">export async function</span> <span class="fn">generateStrategy</span>(uid: <span class="tp">string</span>) {
+  <span class="kw">const</span> insights = (await adminDb.<span class="fn">collection</span>(<span class="str">"agent_insights"</span>).<span class="fn">doc</span>(uid).<span class="fn">get</span>()).<span class="fn">data</span>()!;
+  <span class="kw">const</span> profile  = (await adminDb.<span class="fn">collection</span>(<span class="str">"users"</span>).<span class="fn">doc</span>(uid).<span class="fn">get</span>()).<span class="fn">data</span>()!;
+
+  <span class="kw">const</span> prompt = <span class="str">`You are an expert social media strategist.
+Business: ${profile.businessName} (${profile.industry})
+Insights:
+- Best posting hour: ${insights.bestHour}:00
+- Best platform: ${insights.bestPlatform}
+- Best tone: ${insights.bestTone}
+- Top hashtags: ${insights.topHashtags?.join(", ")}
+Generate a JSON strategy with: weeklyPostTarget, recommendedPostTimes,
+contentMix (object), recommendedTone, reasoning (array of strings).`</span>;
+
+  <span class="kw">const</span> gemini   = <span class="kw">new</span> <span class="fn">GeminiClient</span>({ apiKey: process.env.<span class="fn">GEMINI_API_KEY</span>! });
+  <span class="kw">const</span> raw      = <span class="kw">await</span> gemini.<span class="fn">generateText</span>(prompt);
+  <span class="kw">const</span> strategy = <span class="fn">JSON</span>.<span class="fn">parse</span>(raw.<span class="fn">replace</span>(<span class="str">/```json|```/g</span>, <span class="str">""</span>).<span class="fn">trim</span>());
+
+  <span class="kw">await</span> adminDb.<span class="fn">collection</span>(<span class="str">"agent_strategy"</span>).<span class="fn">doc</span>(uid).<span class="fn">set</span>({
+    ...strategy, generatedAt: <span class="kw">new</span> <span class="fn">Date</span>().<span class="fn">toISOString</span>(), status: <span class="str">"active"</span>
+  });
+}</code></pre>
+        </div>
+
+        <!-- 7. GEMINI CLIENT -->
+        <div class="section" id="gemini">
+            <div class="section-title"><span>7.</span> Gemini AI Client</div>
+            <p>Handles all AI text generation with a 3-model cascading fallback. If all Gemini models fail, it tries
+                HuggingFace then Pollinations.ai.</p>
+            <div class="label">lib/gemini-client.ts</div>
+            <pre><code><span class="kw">async</span> <span class="fn">generateText</span>(prompt: <span class="tp">string</span>): <span class="tp">Promise</span>&lt;<span class="tp">string</span>&gt; {
+  <span class="cm">// Try each active Gemini model in order</span>
+  <span class="kw">for</span> (<span class="kw">const</span> model <span class="kw">of</span> [
+    <span class="str">"gemini-2.5-flash"</span>,      <span class="cm">// Newest — 5 RPM free</span>
+    <span class="str">"gemini-2.0-flash"</span>,      <span class="cm">// Stable — 15 RPM, daily quota</span>
+    <span class="str">"gemini-2.0-flash-lite"</span>, <span class="cm">// Lighter — separate quota pool</span>
+  ]) {
+    <span class="kw">try</span> { <span class="kw">return await</span> <span class="fn">this</span>.<span class="fn">callGeminiWithModel</span>(model, prompt); }
+    <span class="kw">catch</span> (e: <span class="kw">any</span>) { console.<span class="fn">warn</span>(<span class="str">`[Gemini] ${model} failed`</span>); }
+  }
+  <span class="cm">// Fallback: HuggingFace Zephyr-7B</span>
+  <span class="kw">try</span> { <span class="kw">return await</span> <span class="fn">this</span>.<span class="fn">generateTextHF</span>(prompt, hfKey); }
+  <span class="kw">catch</span> (e) { console.<span class="fn">warn</span>(<span class="str">"HuggingFace failed"</span>); }
+  <span class="cm">// Final: Pollinations.ai (no key needed)</span>
+  <span class="kw">return await</span> <span class="fn">this</span>.<span class="fn">generateTextFallback</span>(prompt);
+}
+
+<span class="kw">private async</span> <span class="fn">callGeminiWithModel</span>(model: <span class="tp">string</span>, prompt: <span class="tp">string</span>) {
+  <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(
+    <span class="str">`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${this.apiKey}`</span>,
+    { method: <span class="str">"POST"</span>, headers: { <span class="str">"Content-Type"</span>: <span class="str">"application/json"</span> },
+      body: <span class="fn">JSON.stringify</span>({ contents: [{ parts: [{ text: prompt }] }] }) }
+  );
+  <span class="kw">if</span> (!res.ok) <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="str">`Model ${model} failed (${res.status})`</span>);
+  <span class="kw">const</span> data = <span class="kw">await</span> res.<span class="fn">json</span>();
+  <span class="kw">return</span> data.candidates?.[<span class="nr">0</span>]?.content?.parts?.[<span class="nr">0</span>]?.text || <span class="str">""</span>;
+}</code></pre>
+        </div>
+
+        <!-- 8. CONNECTORS -->
+        <div class="section" id="connectors">
+            <div class="section-title"><span>8.</span> Social Connectors</div>
+
+            <div class="sub">InstagramConnector — lib/social/instagram.ts</div>
+            <pre><code><span class="kw">export class</span> <span class="tp">InstagramConnector</span> <span class="kw">implements</span> <span class="tp">SocialConnector</span> {
+  constructor(
+    <span class="kw">private</span> igAccountId: <span class="tp">string</span>,
+    <span class="kw">private</span> accessToken: <span class="tp">string</span>
+  ) {}
+
+  <span class="kw">async</span> <span class="fn">publish</span>(content: <span class="tp">string</span>, imageUrl: <span class="tp">string</span>): <span class="tp">Promise</span>&lt;<span class="tp">string</span>&gt; {
+    <span class="cm">// Step 1: Create media container</span>
+    <span class="kw">const</span> container = <span class="kw">await</span> <span class="fn">fetch</span>(
+      <span class="str">`https://graph.facebook.com/v18.0/${this.igAccountId}/media`</span>,
+      { method: <span class="str">"POST"</span>, body: <span class="fn">JSON.stringify</span>({
+        image_url: imageUrl, caption: content, access_token: <span class="fn">this</span>.accessToken
+      })}
+    );
+    <span class="kw">const</span> { id: creationId } = <span class="kw">await</span> container.<span class="fn">json</span>();
+
+    <span class="cm">// Step 2: Poll until container ready</span>
+    <span class="kw">let</span> status = <span class="str">"IN_PROGRESS"</span>;
+    <span class="kw">while</span> (status !== <span class="str">"FINISHED"</span>) {
+      <span class="kw">await await</span> <span class="kw">new</span> <span class="fn">Promise</span>(r =&gt; <span class="fn">setTimeout</span>(r, <span class="nr">2000</span>));
+      <span class="kw">const</span> s = <span class="kw">await</span> (<span class="kw">await</span> <span class="fn">fetch</span>(
+        <span class="str">`https://graph.facebook.com/v18.0/${creationId}?fields=status_code&amp;access_token=${this.accessToken}`</span>
+      )).<span class="fn">json</span>();
+      status = s.status_code;
+    }
+
+    <span class="cm">// Step 3: Publish from container</span>
+    <span class="kw">const</span> pub = <span class="kw">await</span> (<span class="kw">await</span> <span class="fn">fetch</span>(
+      <span class="str">`https://graph.facebook.com/v18.0/${this.igAccountId}/media_publish`</span>,
+      { method: <span class="str">"POST"</span>, body: <span class="fn">JSON.stringify</span>({
+        creation_id: creationId, access_token: <span class="fn">this</span>.accessToken
+      })}
+    )).<span class="fn">json</span>();
+    <span class="kw">return</span> pub.id; <span class="cm">// IG Media ID</span>
+  }
+
+  <span class="kw">async</span> <span class="fn">getFollowerCount</span>(): <span class="tp">Promise</span>&lt;<span class="tp">number</span>&gt; {
+    <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(
+      <span class="str">`https://graph.facebook.com/v18.0/${this.igAccountId}?fields=followers_count&amp;access_token=${this.accessToken}`</span>
+    );
+    <span class="kw">const</span> data = <span class="kw">await</span> res.<span class="fn">json</span>();
+    <span class="kw">return</span> data.followers_count || <span class="nr">0</span>;
+  }
+}</code></pre>
+
+            <div class="sub">LinkedInConnector — lib/social/linkedin.ts</div>
+            <pre><code><span class="kw">async</span> <span class="fn">publish</span>(content: <span class="tp">string</span>): <span class="tp">Promise</span>&lt;<span class="tp">string</span>&gt; {
+  <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">"https://api.linkedin.com/v2/ugcPosts"</span>, {
+    method: <span class="str">"POST"</span>,
+    headers: { Authorization: <span class="str">`Bearer ${this.accessToken}`</span>,
+               <span class="str">"Content-Type"</span>: <span class="str">"application/json"</span>,
+               <span class="str">"X-Restli-Protocol-Version"</span>: <span class="str">"2.0.0"</span> },
+    body: <span class="fn">JSON.stringify</span>({
+      author: <span class="str">`urn:li:person:${this.memberId}`</span>,
+      lifecycleState: <span class="str">"PUBLISHED"</span>,
+      specificContent: { <span class="str">"com.linkedin.ugc.ShareContent"</span>: {
+        shareCommentary:  { text: content },
+        shareMediaCategory: <span class="str">"NONE"</span>
+      }},
+      visibility: { <span class="str">"com.linkedin.ugc.MemberNetworkVisibility"</span>: <span class="str">"PUBLIC"</span> }
+    })
+  });
+  <span class="kw">const</span> data = <span class="kw">await</span> res.<span class="fn">json</span>();
+  <span class="kw">return</span> data.id;
+}</code></pre>
+        </div>
+
+        <!-- 9. OAUTH -->
+        <div class="section" id="auth">
+            <div class="section-title"><span>9.</span> OAuth Routes</div>
+
+            <div class="sub">Instagram OAuth Flow</div>
+            <pre><code><span class="cm">// Step 1: Redirect user to Facebook OAuth dialog</span>
+<span class="kw">export async function</span> <span class="fn">GET</span>() {
+  <span class="kw">const</span> url = <span class="str">`https://www.facebook.com/v18.0/dialog/oauth?`</span> +
+    <span class="kw">new</span> <span class="fn">URLSearchParams</span>({
+      client_id:    process.env.<span class="fn">FACEBOOK_APP_ID</span>!,
+      redirect_uri: process.env.<span class="fn">INSTAGRAM_REDIRECT_URI</span>!,
+      scope:        <span class="str">"instagram_basic,instagram_content_publish,pages_show_list"</span>
+    });
+  <span class="kw">return</span> <span class="fn">NextResponse</span>.<span class="fn">redirect</span>(url);
+}
+
+<span class="cm">// Step 2: Exchange code for token, save to Firestore</span>
+<span class="kw">export async function</span> <span class="fn">GET</span>(req: <span class="tp">Request</span>) {
+  <span class="kw">const</span> code = <span class="kw">new</span> <span class="fn">URL</span>(req.url).searchParams.<span class="fn">get</span>(<span class="str">"code"</span>)!;
+
+  <span class="cm">// Exchange code for short-lived token</span>
+  <span class="kw">const</span> tokenRes = <span class="kw">await</span> <span class="fn">fetch</span>(
+    <span class="str">`https://graph.facebook.com/v18.0/oauth/access_token?`</span> +
+    <span class="kw">new</span> <span class="fn">URLSearchParams</span>({ client_id, client_secret, redirect_uri, code })
+  );
+  <span class="kw">const</span> { access_token } = <span class="kw">await</span> tokenRes.<span class="fn">json</span>();
+
+  <span class="cm">// Exchange for long-lived token (60 days)</span>
+  <span class="kw">const</span> longLived = <span class="kw">await</span> <span class="fn">exchangeForLongLivedToken</span>(access_token);
+
+  <span class="cm">// Save credentials to user's connections subcollection</span>
+  <span class="kw">await</span> adminDb.<span class="fn">collection</span>(<span class="str">"users"</span>).<span class="fn">doc</span>(uid)
+    .<span class="fn">collection</span>(<span class="str">"connections"</span>).<span class="fn">doc</span>(<span class="str">"instagram"</span>)
+    .<span class="fn">set</span>({ accessToken: longLived, igAccountId, connectedAt: <span class="kw">new</span> <span class="fn">Date</span>().<span class="fn">toISOString</span>() });
+
+  <span class="kw">return</span> <span class="fn">NextResponse</span>.<span class="fn">redirect</span>(<span class="str">"/dashboard/settings?connected=instagram"</span>);
+}</code></pre>
+        </div>
+
+        <!-- 10. SCHEMA -->
+        <div class="section" id="schema">
+            <div class="section-title"><span>10.</span> Firestore Database Schema</div>
+            <table>
+                <tr>
+                    <th>Collection / Document</th>
+                    <th>Key Fields</th>
+                    <th>Purpose</th>
+                </tr>
+                <tr>
+                    <td><code>users/{uid}</code></td>
+                    <td>businessName, industry, tone, targetAudience</td>
+                    <td>Business profile — personalizes all AI prompts</td>
+                </tr>
+                <tr>
+                    <td><code>users/{uid}/connections/instagram</code></td>
+                    <td>igAccountId, accessToken, pageId</td>
+                    <td>Instagram OAuth credentials (server-side only)</td>
+                </tr>
+                <tr>
+                    <td><code>users/{uid}/connections/linkedin</code></td>
+                    <td>linkedinId, accessToken, memberId</td>
+                    <td>LinkedIn OAuth credentials (server-side only)</td>
+                </tr>
+                <tr>
+                    <td><code>posts/{postId}</code></td>
+                    <td>userId, content, platform, status, scheduledAt, publishedAt, platformPostId, metrics,
+                        engagementScore, postHour, hashtags</td>
+                    <td>All posts in all states (draft/scheduled/published)</td>
+                </tr>
+                <tr>
+                    <td><code>agent_insights/{uid}</code></td>
+                    <td>bestHour, bestTone, bestPlatform, hourlyEngagement[], topHashtags</td>
+                    <td>Analyzer output — statistical patterns</td>
+                </tr>
+                <tr>
+                    <td><code>agent_strategy/{uid}</code></td>
+                    <td>weeklyPostTarget, recommendedPostTimes[], contentMix, reasoning[]</td>
+                    <td>Planner output — weekly strategy</td>
+                </tr>
+                <tr>
+                    <td><code>follower_snapshots</code></td>
+                    <td>userId, platform, followerCount, date (YYYY-MM-DD)</td>
+                    <td>Daily follower growth history, deduplicated</td>
+                </tr>
+            </table>
+
+            <div class="label">Required Firestore Composite Indexes</div>
+            <table>
+                <tr>
+                    <th>Collection</th>
+                    <th>Fields</th>
+                    <th>Used By</th>
+                </tr>
+                <tr>
+                    <td>posts</td>
+                    <td>userId ASC, status ASC, createdAt DESC</td>
+                    <td>GET /api/posts</td>
+                </tr>
+                <tr>
+                    <td>posts</td>
+                    <td>status ASC, scheduledAt ASC</td>
+                    <td>Cron auto-publisher query</td>
+                </tr>
+                <tr>
+                    <td>follower_snapshots</td>
+                    <td>userId ASC, platform ASC, date ASC</td>
+                    <td>Deduplication query</td>
+                </tr>
+            </table>
+        </div>
+
+        <p
+            style="text-align:center;color:#374151;font-size:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--border)">
+            MarketingAI — Backend Code Report &nbsp;|&nbsp; Next.js 16 API Routes + Firebase Admin + Google Gemini
+            &nbsp;|&nbsp; March 2026
+        </p>
+    </div>
+</body>
+
+</html>

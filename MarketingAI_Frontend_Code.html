@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MarketingAI — Frontend Code</title>
+    <style>
+        :root {
+            --primary: #7c3aed;
+            --bg: #09090f;
+            --surface: #12121e;
+            --surface2: #1a1a2e;
+            --text: #e2e8f0;
+            --muted: #94a3b8;
+            --border: #2a2a40;
+            --green: #10b981;
+            --blue: #3b82f6;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.7
+        }
+
+        @media print {
+            body {
+                background: #fff;
+                color: #000
+            }
+
+            pre {
+                border: 1px solid #ccc
+            }
+
+            .no-print {
+                display: none
+            }
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 40px 24px
+        }
+
+        .header {
+            text-align: center;
+            padding: 50px 0 36px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 44px
+        }
+
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), #ec4899);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            padding: 4px 14px;
+            border-radius: 99px;
+            margin-bottom: 16px;
+            text-transform: uppercase
+        }
+
+        h1 {
+            font-size: 38px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #a78bfa, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text
+        }
+
+        .header p {
+            color: var(--muted);
+            font-size: 16px;
+            margin-top: 10px
+        }
+
+        .toc {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 44px
+        }
+
+        .toc h2 {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 14px
+        }
+
+        .toc ol {
+            padding-left: 20px
+        }
+
+        .toc li {
+            margin: 5px 0
+        }
+
+        .toc a {
+            color: #a78bfa;
+            text-decoration: none;
+            font-size: 14px
+        }
+
+        .section {
+            margin-bottom: 60px
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border)
+        }
+
+        .section-title span {
+            background: linear-gradient(135deg, var(--primary), #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text
+        }
+
+        .sub {
+            font-size: 17px;
+            font-weight: 700;
+            margin: 26px 0 10px;
+            color: #c4b5fd
+        }
+
+        p {
+            color: var(--muted);
+            margin-bottom: 12px;
+            font-size: 14px
+        }
+
+        .label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin: 18px 0 5px
+        }
+
+        pre {
+            background: #07070f;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+            overflow-x: auto;
+            font-size: 13px;
+            line-height: 1.65;
+            margin-bottom: 22px
+        }
+
+        code {
+            font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+            color: #e2e8f0
+        }
+
+        .kw {
+            color: #f472b6
+        }
+
+        .fn {
+            color: #60a5fa
+        }
+
+        .str {
+            color: #34d399
+        }
+
+        .cm {
+            color: #4b5563;
+            font-style: italic
+        }
+
+        .tp {
+            color: #fbbf24
+        }
+
+        .nr {
+            color: #fb923c
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 13px
+        }
+
+        th {
+            background: var(--surface2);
+            color: var(--muted);
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 1px;
+            padding: 9px 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border)
+        }
+
+        td {
+            padding: 9px 12px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text);
+            vertical-align: top
+        }
+
+        .tag {
+            display: inline-block;
+            background: rgba(124, 58, 237, .15);
+            color: #a78bfa;
+            border: 1px solid rgba(124, 58, 237, .3);
+            border-radius: 99px;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 1px 9px;
+            margin: 2px
+        }
+
+        .hl {
+            background: rgba(124, 58, 237, .08);
+            border-left: 3px solid var(--primary);
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            margin: 14px 0
+        }
+
+        .hl p {
+            margin: 0;
+            font-size: 13px
+        }
+
+        .file-tree {
+            background: #07070f;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+            font-size: 13px;
+            font-family: 'Cascadia Code', 'Consolas', monospace;
+            line-height: 2;
+            margin-bottom: 22px
+        }
+
+        .file-tree .dir {
+            color: #60a5fa;
+            font-weight: 600
+        }
+
+        .file-tree .file {
+            color: #c4b5fd
+        }
+
+        .file-tree .note {
+            color: #4b5563;
+            font-style: italic
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="header">
+            <div class="badge">Frontend Code Report</div>
+            <h1>MarketingAI — Frontend</h1>
+            <p>Next.js 16 App Router · TypeScript · Tailwind CSS · Framer Motion</p>
+        </div>
+
+        <div class="toc">
+            <h2>Contents</h2>
+            <ol>
+                <li><a href="#structure">File Structure</a></li>
+                <li><a href="#auth">Authentication (AuthContext)</a></li>
+                <li><a href="#layout">Dashboard Layout + Auto-Publisher</a></li>
+                <li><a href="#create">Create Content Page</a></li>
+                <li><a href="#posts">My Posts Page (Tabs + Delete)</a></li>
+                <li><a href="#analytics">Analytics Page</a></li>
+                <li><a href="#strategy">Strategy Agent Page</a></li>
+                <li><a href="#schedule">Schedule Calendar Page</a></li>
+                <li><a href="#settings">Settings Page</a></li>
+                <li><a href="#components">Shared Components</a></li>
+            </ol>
+        </div>
+
+        <!-- 1. STRUCTURE -->
+        <div class="section" id="structure">
+            <div class="section-title"><span>1.</span> Frontend File Structure</div>
+            <div class="file-tree">
+                <span class="dir">app/</span>
+                ├── <span class="file">layout.tsx</span> <span class="note">← Root layout: fonts, theme provider,
+                    AuthProvider</span>
+                ├── <span class="file">page.tsx</span> <span class="note">← Landing / marketing page</span>
+                ├── <span class="dir">auth/</span>
+                │ └── <span class="file">page.tsx</span> <span class="note">← Login + Sign-up page</span>
+                ├── <span class="dir">onboarding/</span>
+                │ └── <span class="file">page.tsx</span> <span class="note">← Business profile setup wizard</span>
+                └── <span class="dir">dashboard/</span>
+                ├── <span class="file">layout.tsx</span> <span class="note">← Sidebar + auto-publisher polling
+                    (shared)</span>
+                ├── <span class="file">page.tsx</span> <span class="note">← Dashboard home: stats, upcoming posts</span>
+                ├── <span class="dir">create/</span>page.tsx <span class="note">← AI content creation workspace</span>
+                ├── <span class="dir">posts/</span>page.tsx <span class="note">← My Posts: Draft / Scheduled / Posted
+                    tabs</span>
+                ├── <span class="dir">schedule/</span>page.tsx <span class="note">← Monthly calendar view</span>
+                ├── <span class="dir">analytics/</span>page.tsx <span class="note">← Metrics + sentiment + trend
+                    navigator</span>
+                ├── <span class="dir">strategy/</span>page.tsx <span class="note">← Strategy Agent UI + adaptive
+                    weights</span>
+                └── <span class="dir">settings/</span>page.tsx <span class="note">← Profile, connections, theme
+                    toggle</span>
+
+                <span class="dir">components/</span>
+                ├── <span class="dir">trends/</span>TrendNavigator.tsx <span class="note">← AI trending topics
+                    panel</span>
+                ├── <span class="dir">visuals/</span>ImageEditor.tsx <span class="note">← Pexels image picker</span>
+                ├── <span class="dir">visuals/</span>ImageUploader.tsx <span class="note">← Custom image upload</span>
+                └── PostCard.tsx <span class="note">← Reusable post display card</span>
+
+                <span class="dir">context/</span>
+                └── AuthContext.tsx <span class="note">← Firebase auth state provider</span>
+            </div>
+        </div>
+
+        <!-- 2. AUTH CONTEXT -->
+        <div class="section" id="auth">
+            <div class="section-title"><span>2.</span> Authentication — AuthContext</div>
+            <p>All Firebase authentication state is managed through a React context. Every page behind the dashboard is
+                protected by this context. The <code>useAuth()</code> hook exposes the <code>user</code> object and
+                <code>loading</code> state to any component.</p>
+            <div class="label">context/AuthContext.tsx</div>
+            <pre><code><span class="str">"use client"</span>;
+<span class="kw">import</span> { createContext, useContext, useEffect, useState } <span class="kw">from</span> <span class="str">"react"</span>;
+<span class="kw">import</span> { onAuthStateChanged, signOut, User } <span class="kw">from</span> <span class="str">"firebase/auth"</span>;
+<span class="kw">import</span> { auth } <span class="kw">from</span> <span class="str">"@/lib/firebase"</span>;
+
+<span class="kw">interface</span> <span class="tp">AuthContextType</span> {
+  user: <span class="tp">User | null</span>;
+  loading: <span class="tp">boolean</span>;
+  logout: () <span class="kw">=&gt;</span> <span class="tp">Promise</span>&lt;<span class="tp">void</span>&gt;;
+}
+
+<span class="kw">const</span> AuthContext = <span class="fn">createContext</span>&lt;<span class="tp">AuthContextType</span>&gt;({
+  user: <span class="kw">null</span>, loading: <span class="kw">true</span>, logout: <span class="kw">async</span> () =&gt; {}
+});
+
+<span class="kw">export function</span> <span class="fn">AuthProvider</span>({ children }: { children: <span class="tp">React.ReactNode</span> }) {
+  <span class="kw">const</span> [user, setUser] = <span class="fn">useState</span>&lt;<span class="tp">User | null</span>&gt;(<span class="kw">null</span>);
+  <span class="kw">const</span> [loading, setLoading] = <span class="fn">useState</span>(<span class="kw">true</span>);
+
+  <span class="fn">useEffect</span>(() =&gt; {
+    <span class="cm">// Firebase listener — updates user state on login/logout</span>
+    <span class="kw">const</span> unsubscribe = <span class="fn">onAuthStateChanged</span>(auth, (firebaseUser) =&gt; {
+      <span class="fn">setUser</span>(firebaseUser);
+      <span class="fn">setLoading</span>(<span class="kw">false</span>);
+    });
+    <span class="kw">return</span> unsubscribe; <span class="cm">// Cleanup listener on unmount</span>
+  }, []);
+
+  <span class="kw">const</span> logout = <span class="kw">async</span> () =&gt; { <span class="kw">await</span> <span class="fn">signOut</span>(auth); };
+
+  <span class="kw">return</span> (
+    &lt;<span class="fn">AuthContext.Provider</span> value={{ user, loading, logout }}&gt;
+      {!loading &amp;&amp; children}
+    &lt;/<span class="fn">AuthContext.Provider</span>&gt;
+  );
+}
+
+<span class="cm">// Hook used by every dashboard component</span>
+<span class="kw">export const</span> <span class="fn">useAuth</span> = () =&gt; <span class="fn">useContext</span>(AuthContext);</code></pre>
+        </div>
+
+        <!-- 3. LAYOUT -->
+        <div class="section" id="layout">
+            <div class="section-title"><span>3.</span> Dashboard Layout + Auto-Publisher</div>
+            <p>The <code>layout.tsx</code> wraps every dashboard page. It renders the sidebar navigation, handles the
+                notification bell, and runs the auto-publisher polling loop — checking for due scheduled posts every 60
+                seconds as long as a user is logged in.</p>
+            <div class="label">app/dashboard/layout.tsx — Auto-Publisher Polling</div>
+            <pre><code><span class="str">"use client"</span>;
+<span class="kw">import</span> { useEffect } <span class="kw">from</span> <span class="str">"react"</span>;
+<span class="kw">import</span> { useAuth } <span class="kw">from</span> <span class="str">"@/context/AuthContext"</span>;
+<span class="kw">import</span> { useRouter } <span class="kw">from</span> <span class="str">"next/navigation"</span>;
+
+<span class="kw">export default function</span> <span class="fn">DashboardLayout</span>({ children }) {
+  <span class="kw">const</span> { user, loading } = <span class="fn">useAuth</span>();
+  <span class="kw">const</span> router = <span class="fn">useRouter</span>();
+
+  <span class="cm">// Redirect unauthenticated users</span>
+  <span class="fn">useEffect</span>(() =&gt; {
+    <span class="kw">if</span> (!loading &amp;&amp; !user) router.<span class="fn">push</span>(<span class="str">"/auth"</span>);
+  }, [user, loading]);
+
+  <span class="cm">// ──────────────────────────────────────────────────</span>
+  <span class="cm">// AUTO-PUBLISHER: polls cron endpoint every 60s</span>
+  <span class="cm">// Triggers publishing of scheduled posts silently</span>
+  <span class="cm">// ──────────────────────────────────────────────────</span>
+  <span class="fn">useEffect</span>(() =&gt; {
+    <span class="kw">if</span> (!user) <span class="kw">return</span>;
+    <span class="cm">// Fire immediately when dashboard opens</span>
+    <span class="fn">fetch</span>(<span class="str">"/api/cron/publish-scheduled"</span>).<span class="fn">catch</span>(() =&gt; {});
+    <span class="cm">// Then repeat every 60 seconds</span>
+    <span class="kw">const</span> timer = <span class="fn">setInterval</span>(() =&gt;
+      <span class="fn">fetch</span>(<span class="str">"/api/cron/publish-scheduled"</span>).<span class="fn">catch</span>(() =&gt; {}),
+      <span class="nr">60_000</span>
+    );
+    <span class="kw">return</span> () =&gt; <span class="fn">clearInterval</span>(timer);
+  }, [user]);
+
+  <span class="kw">return</span> (
+    &lt;<span class="tp">div</span> className=<span class="str">"flex min-h-screen bg-background"</span>&gt;
+      &lt;<span class="fn">Sidebar</span> /&gt;
+      &lt;<span class="tp">main</span> className=<span class="str">"flex-1 overflow-auto"</span>&gt;{children}&lt;/<span class="tp">main</span>&gt;
+    &lt;/<span class="tp">div</span>&gt;
+  );
+}</code></pre>
+
+            <div class="label">Sidebar Navigation Items</div>
+            <table>
+                <tr>
+                    <th>Label</th>
+                    <th>Route</th>
+                    <th>Icon</th>
+                </tr>
+                <tr>
+                    <td>Dashboard</td>
+                    <td>/dashboard</td>
+                    <td>LayoutDashboard</td>
+                </tr>
+                <tr>
+                    <td>Create Content</td>
+                    <td>/dashboard/create</td>
+                    <td>PenSquare</td>
+                </tr>
+                <tr>
+                    <td>My Posts</td>
+                    <td>/dashboard/posts</td>
+                    <td>FileText</td>
+                </tr>
+                <tr>
+                    <td>Schedule</td>
+                    <td>/dashboard/schedule</td>
+                    <td>Calendar</td>
+                </tr>
+                <tr>
+                    <td>Analytics</td>
+                    <td>/dashboard/analytics</td>
+                    <td>BarChart2</td>
+                </tr>
+                <tr>
+                    <td>Strategy Agent</td>
+                    <td>/dashboard/strategy</td>
+                    <td>Zap</td>
+                </tr>
+                <tr>
+                    <td>Settings</td>
+                    <td>/dashboard/settings</td>
+                    <td>Settings</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- 4. CREATE CONTENT -->
+        <div class="section" id="create">
+            <div class="section-title"><span>4.</span> Create Content Page</div>
+            <p>The content creation workspace allows users to describe a topic, select a platform and tone, then
+                generate an AI caption. It also includes Pexels image search, a Tone Guard check, and
+                save/publish/schedule actions.</p>
+            <div class="label">app/dashboard/create/page.tsx — Generate Handler</div>
+            <pre><code><span class="kw">const</span> <span class="fn">handleGenerate</span> = <span class="kw">async</span> () =&gt; {
+  <span class="kw">if</span> (!topic.<span class="fn">trim</span>()) { <span class="fn">alert</span>(<span class="str">"Enter a topic first"</span>); <span class="kw">return</span>; }
+  <span class="fn">setGenerating</span>(<span class="kw">true</span>);
+  <span class="kw">try</span> {
+    <span class="kw">const</span> token = <span class="kw">await</span> user.<span class="fn">getIdToken</span>();
+    <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">"/api/gemini/generate"</span>, {
+      method: <span class="str">"POST"</span>,
+      headers: {
+        <span class="str">"Content-Type"</span>: <span class="str">"application/json"</span>,
+        <span class="str">"Authorization"</span>: <span class="str">`Bearer ${token}`</span>
+      },
+      body: <span class="fn">JSON.stringify</span>({ topic, platform, tone, keywords })
+    });
+    <span class="kw">const</span> data = <span class="kw">await</span> res.<span class="fn">json</span>();
+    <span class="fn">setContent</span>(data.content);       <span class="cm">// Show generated caption</span>
+    <span class="fn">setHashtags</span>(data.hashtags || []); <span class="cm">// Show suggested hashtags</span>
+  } <span class="kw">catch</span> (e) {
+    <span class="fn">alert</span>(<span class="str">"Generation failed. Please try again."</span>);
+  } <span class="kw">finally</span> {
+    <span class="fn">setGenerating</span>(<span class="kw">false</span>);
+  }
+};
+
+<span class="cm">// Save post as draft to Firestore</span>
+<span class="kw">const</span> <span class="fn">handleSave</span> = <span class="kw">async</span> () =&gt; {
+  <span class="kw">const</span> token = <span class="kw">await</span> user.<span class="fn">getIdToken</span>();
+  <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">"/api/posts"</span>, {
+    method: <span class="str">"POST"</span>,
+    headers: { <span class="str">"Content-Type"</span>: <span class="str">"application/json"</span>, <span class="str">"Authorization"</span>: <span class="str">`Bearer ${token}`</span> },
+    body: <span class="fn">JSON.stringify</span>({ topic, content, platform, tone, imageUrl, status: <span class="str">"draft"</span> })
+  });
+};</code></pre>
+
+            <div class="label">Platform + Tone Options</div>
+            <table>
+                <tr>
+                    <th>Platforms</th>
+                    <th>Tones</th>
+                </tr>
+                <tr>
+                    <td>Instagram, LinkedIn, Twitter, Facebook</td>
+                    <td>Professional, Casual, Inspirational, Humorous, Persuasive, Educational</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- 5. MY POSTS -->
+        <div class="section" id="posts">
+            <div class="section-title"><span>5.</span> My Posts Page</div>
+            <p>Three-tab view showing all posts grouped by status. Each post card displays the image, caption preview,
+                platform badge, engagement metrics, and action buttons. A delete button appears on all cards, scheduling
+                and publish buttons appear on drafts only.</p>
+            <div class="label">app/dashboard/posts/page.tsx — State + Tabs</div>
+            <pre><code><span class="kw">const</span> [posts, setPosts] = <span class="fn">useState</span>&lt;<span class="tp">Post</span>[]&gt;([]);
+<span class="kw">const</span> [activeTab, setActiveTab] = <span class="fn">useState</span>&lt;<span class="str">"draft"</span> | <span class="str">"scheduled"</span> | <span class="str">"posted"</span>&gt;(<span class="str">"draft"</span>);
+<span class="kw">const</span> [isDeleting, setIsDeleting] = <span class="fn">useState</span>&lt;<span class="tp">string | null</span>&gt;(<span class="kw">null</span>);
+<span class="kw">const</span> [isPublishing, setIsPublishing] = <span class="fn">useState</span>&lt;<span class="tp">string | null</span>&gt;(<span class="kw">null</span>);
+
+<span class="cm">// Filtered based on active tab</span>
+<span class="kw">const</span> filteredPosts = posts.<span class="fn">filter</span>(p =&gt;
+  activeTab === <span class="str">"draft"</span>     ? p.status === <span class="str">"draft"</span>     :
+  activeTab === <span class="str">"scheduled"</span> ? p.status === <span class="str">"scheduled"</span> :
+  p.status === <span class="str">"published"</span>
+);</code></pre>
+
+            <div class="label">Delete Handler with Instant UI Update</div>
+            <pre><code><span class="kw">const</span> <span class="fn">handleDelete</span> = <span class="kw">async</span> (postId: <span class="tp">string</span>) =&gt; {
+  <span class="kw">if</span> (!<span class="fn">confirm</span>(<span class="str">"Delete this post? This cannot be undone."</span>)) <span class="kw">return</span>;
+  <span class="fn">setIsDeleting</span>(postId);
+  <span class="kw">try</span> {
+    <span class="kw">const</span> token = <span class="kw">await</span> user.<span class="fn">getIdToken</span>();
+    <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">`/api/posts/${postId}`</span>, {
+      method: <span class="str">"DELETE"</span>,
+      headers: { Authorization: <span class="str">`Bearer ${token}`</span> }
+    });
+    <span class="kw">if</span> (!res.ok) <span class="kw">throw new</span> <span class="fn">Error</span>((<span class="kw">await</span> res.<span class="fn">json</span>()).error);
+    <span class="cm">// Optimistic UI — remove from state immediately, no reload</span>
+    <span class="fn">setPosts</span>(prev =&gt; prev.<span class="fn">filter</span>(p =&gt; p.id !== postId));
+  } <span class="kw">finally</span> { <span class="fn">setIsDeleting</span>(<span class="kw">null</span>); }
+};
+
+<span class="cm">// Schedule a draft post</span>
+<span class="kw">const</span> <span class="fn">handleSchedule</span> = <span class="kw">async</span> (postId: <span class="tp">string</span>, scheduledAt: <span class="tp">string</span>) =&gt; {
+  <span class="kw">const</span> token = <span class="kw">await</span> user.<span class="fn">getIdToken</span>();
+  <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">`/api/posts/${postId}`</span>, {
+    method: <span class="str">"PATCH"</span>,
+    headers: { <span class="str">"Content-Type"</span>: <span class="str">"application/json"</span>, Authorization: <span class="str">`Bearer ${token}`</span> },
+    body: <span class="fn">JSON.stringify</span>({ status: <span class="str">"scheduled"</span>, scheduledAt })
+  });
+  <span class="kw">await</span> <span class="fn">fetchPosts</span>(); <span class="cm">// Refresh the list</span>
+};</code></pre>
+
+            <div class="label">Tab Badge Count in JSX</div>
+            <pre><code>{([<span class="str">"draft"</span>, <span class="str">"scheduled"</span>, <span class="str">"posted"</span>] <span class="kw">as const</span>).<span class="fn">map</span>(tab =&gt; (
+  &lt;<span class="tp">button</span> key={tab} <span class="fn">onClick</span>={() =&gt; <span class="fn">setActiveTab</span>(tab)}
+    className={activeTab === tab ? <span class="str">"border-primary text-primary"</span> : <span class="str">"text-muted-foreground"</span>}&gt;
+    {tab === <span class="str">"posted"</span> ? <span class="str">"Posted"</span> : tab === <span class="str">"scheduled"</span> ? <span class="str">"Scheduled"</span> : <span class="str">"Drafts"</span>}
+    &lt;<span class="tp">span</span> className=<span class="str">"ml-1 text-xs bg-muted px-1.5 py-0.5 rounded-full"</span>&gt;
+      {posts.<span class="fn">filter</span>(p =&gt;
+        tab === <span class="str">"draft"</span>     ? p.status === <span class="str">"draft"</span>     :
+        tab === <span class="str">"scheduled"</span> ? p.status === <span class="str">"scheduled"</span> :
+        p.status === <span class="str">"published"</span>
+      ).length}
+    &lt;/<span class="tp">span</span>&gt;
+  &lt;/<span class="tp">button</span>&gt;
+))}</code></pre>
+        </div>
+
+        <!-- 6. ANALYTICS -->
+        <div class="section" id="analytics">
+            <div class="section-title"><span>6.</span> Analytics Page</div>
+            <p>Displays post performance metrics fetched from Firestore and synced from Instagram/LinkedIn. Includes a
+                per-post sentiment modal, AI-powered comment reply suggestions, and the Trend Navigator component.</p>
+            <div class="label">app/dashboard/analytics/page.tsx — Sync + Sentiment Flow</div>
+            <pre><code><span class="cm">// Sync fresh metrics from platform APIs</span>
+<span class="kw">const</span> <span class="fn">handleSync</span> = <span class="kw">async</span> () =&gt; {
+  <span class="fn">setSyncing</span>(<span class="kw">true</span>);
+  <span class="kw">const</span> token = <span class="kw">await</span> user.<span class="fn">getIdToken</span>();
+  <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">"/api/analytics/sync"</span>, {
+    method: <span class="str">"POST"</span>,
+    headers: { Authorization: <span class="str">`Bearer ${token}`</span> }
+  });
+  <span class="kw">await</span> <span class="fn">fetchPosts</span>(); <span class="cm">// Reload updated metrics</span>
+  <span class="fn">setSyncing</span>(<span class="kw">false</span>);
+};
+
+<span class="cm">// Open sentiment analysis modal for a post</span>
+<span class="kw">const</span> <span class="fn">handleAnalyzePulse</span> = <span class="kw">async</span> (postId: <span class="tp">string</span>) =&gt; {
+  <span class="kw">const</span> token = <span class="kw">await</span> user.<span class="fn">getIdToken</span>();
+  <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">"/api/analytics/sentiment"</span>, {
+    method: <span class="str">"POST"</span>,
+    headers: { <span class="str">"Content-Type"</span>: <span class="str">"application/json"</span>, Authorization: <span class="str">`Bearer ${token}`</span> },
+    body: <span class="fn">JSON.stringify</span>({ postId })
+  });
+  <span class="kw">const</span> { sentiment } = <span class="kw">await</span> res.<span class="fn">json</span>();
+  <span class="cm">// sentiment = { positive: 65, neutral: 25, negative: 10, summary: "..." }</span>
+  <span class="fn">setSentimentData</span>(sentiment);
+  <span class="fn">setSentimentModalOpen</span>(<span class="kw">true</span>);
+};</code></pre>
+        </div>
+
+        <!-- 7. STRATEGY -->
+        <div class="section" id="strategy">
+            <div class="section-title"><span>7.</span> Strategy Agent Page</div>
+            <p>Provides the full UI for running the 3-module Strategy Agent pipeline (Observe → Analyze → Plan),
+                displaying the hourly engagement heatmap, platform performance bars, content mix recommendations, and
+                the adaptive intelligence panel.</p>
+            <div class="label">app/dashboard/strategy/page.tsx — Run Full Agent</div>
+            <pre><code><span class="kw">const</span> <span class="fn">runFullAgent</span> = <span class="kw">async</span> () =&gt; {
+  <span class="kw">const</span> token = <span class="kw">await</span> user.<span class="fn">getIdToken</span>();
+  <span class="fn">setStatus</span>(<span class="str">"🔍 Observing posts..."</span>);
+
+  <span class="cm">// Step 1 — Observer: enrich posts with engagement scores + metadata</span>
+  <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">"/api/agent/observe"</span>, {
+    method: <span class="str">"POST"</span>, headers: { Authorization: <span class="str">`Bearer ${token}`</span> }
+  });
+
+  <span class="fn">setStatus</span>(<span class="str">"📊 Analyzing patterns..."</span>);
+  <span class="cm">// Step 2 — Analyzer: detect best hour, tone, platform, hashtags</span>
+  <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">"/api/agent/analyze"</span>, {
+    method: <span class="str">"POST"</span>, headers: { Authorization: <span class="str">`Bearer ${token}`</span> }
+  });
+
+  <span class="fn">setStatus</span>(<span class="str">"🤖 Generating strategy..."</span>);
+  <span class="cm">// Step 3 — Planner: use Gemini to build weekly content strategy</span>
+  <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">"/api/agent/plan"</span>, {
+    method: <span class="str">"POST"</span>, headers: { Authorization: <span class="str">`Bearer ${token}`</span> }
+  });
+
+  <span class="fn">setStatus</span>(<span class="str">"✅ Strategy ready!"</span>);
+  <span class="kw">await</span> <span class="fn">loadStrategy</span>(); <span class="cm">// Reload the strategy data for display</span>
+};</code></pre>
+
+            <div class="label">Hourly Heatmap Render (24 cells)</div>
+            <pre><code>&lt;<span class="tp">div</span> className=<span class="str">"grid grid-cols-12 gap-1 mt-4"</span>&gt;
+  {insights.hourlyEngagement.<span class="fn">map</span>((score, hour) =&gt; {
+    <span class="kw">const</span> intensity = Math.<span class="fn">min</span>(score / maxHourlyScore, <span class="nr">1</span>);
+    <span class="kw">return</span> (
+      &lt;<span class="tp">div</span>
+        key={hour}
+        title={<span class="str">`${hour}:00 — Score: ${score.toFixed(1)}`</span>}
+        style={{
+          background: <span class="str">`rgba(124, 58, 237, ${intensity})`</span>,
+          border: hour === insights.bestHour ? <span class="str">"2px solid #a78bfa"</span> : <span class="str">"1px solid #2a2a40"</span>
+        }}
+        className=<span class="str">"h-8 rounded text-[10px] flex items-end p-0.5 text-white/60"</span>&gt;
+        {hour}
+      &lt;/<span class="tp">div</span>&gt;
+    );
+  })}
+&lt;/<span class="tp">div</span>&gt;</code></pre>
+        </div>
+
+        <!-- 8. SCHEDULE CALENDAR -->
+        <div class="section" id="schedule">
+            <div class="section-title"><span>8.</span> Schedule Calendar Page</div>
+            <p>A monthly calendar grid where each day cell shows chips for any published or scheduled posts on that day.
+                Clicking a chip shows post details. Users can also navigate between months.</p>
+            <div class="label">app/dashboard/schedule/page.tsx — Calendar Grid Logic</div>
+            <pre><code><span class="cm">// Generate the calendar grid for a month</span>
+<span class="kw">const</span> <span class="fn">buildCalendar</span> = (year: <span class="tp">number</span>, month: <span class="tp">number</span>) =&gt; {
+  <span class="kw">const</span> firstDay = <span class="kw">new</span> <span class="fn">Date</span>(year, month, <span class="nr">1</span>).<span class="fn">getDay</span>(); <span class="cm">// 0=Sun</span>
+  <span class="kw">const</span> daysInMonth = <span class="kw">new</span> <span class="fn">Date</span>(year, month + <span class="nr">1</span>, <span class="nr">0</span>).<span class="fn">getDate</span>();
+  <span class="kw">const</span> cells: (<span class="tp">number | null</span>)[] = [...<span class="fn">Array</span>(firstDay).<span class="fn">fill</span>(<span class="kw">null</span>),
+    ...<span class="fn">Array</span>.<span class="fn">from</span>({ length: daysInMonth }, (_, i) =&gt; i + <span class="nr">1</span>)
+  ];
+  <span class="kw">return</span> cells;
+};
+
+<span class="cm">// Get posts for a specific day (posts are indexed by date string)</span>
+<span class="kw">const</span> <span class="fn">getPostsForDay</span> = (day: <span class="tp">number</span>) =&gt;
+  posts.<span class="fn">filter</span>(p =&gt; {
+    <span class="kw">const</span> d = <span class="kw">new</span> <span class="fn">Date</span>(p.scheduledAt || p.publishedAt || p.createdAt);
+    <span class="kw">return</span> d.<span class="fn">getFullYear</span>() === currentYear
+        &amp;&amp; d.<span class="fn">getMonth</span>()    === currentMonth
+        &amp;&amp; d.<span class="fn">getDate</span>()     === day;
+  });</code></pre>
+        </div>
+
+        <!-- 9. SETTINGS -->
+        <div class="section" id="settings">
+            <div class="section-title"><span>9.</span> Settings Page</div>
+            <p>The settings page is split into tabs: Profile (business info), Connections (Instagram / LinkedIn OAuth),
+                and Appearance (dark/light mode toggle). Platform connection status is read from Firestore's
+                <code>connections</code> subcollection.</p>
+            <div class="label">app/dashboard/settings/page.tsx — Connect Instagram</div>
+            <pre><code><span class="cm">// Redirects to Instagram OAuth start URL</span>
+<span class="kw">const</span> <span class="fn">connectInstagram</span> = () =&gt; {
+  window.<span class="fn">location</span>.<span class="fn">href</span> = <span class="str">"/api/auth/instagram"</span>;
+};
+
+<span class="cm">// Disconnect clears the Firestore connection document</span>
+<span class="kw">const</span> <span class="fn">disconnectPlatform</span> = <span class="kw">async</span> (platform: <span class="tp">string</span>) =&gt; {
+  <span class="kw">const</span> token = <span class="kw">await</span> user.<span class="fn">getIdToken</span>();
+  <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">`/api/user/connections/${platform}`</span>, {
+    method: <span class="str">"DELETE"</span>,
+    headers: { Authorization: <span class="str">`Bearer ${token}`</span> }
+  });
+  <span class="kw">await</span> <span class="fn">loadConnections</span>();
+};</code></pre>
+        </div>
+
+        <!-- 10. COMPONENTS -->
+        <div class="section" id="components">
+            <div class="section-title"><span>10.</span> Shared Components</div>
+
+            <div class="sub">TrendNavigator</div>
+            <p>Fetches AI-generated trending topics for the user's industry from <code>/api/trends</code> and displays
+                them as interactive cards that pre-fill the Create Content page topic field.</p>
+            <div class="label">components/trends/TrendNavigator.tsx</div>
+            <pre><code><span class="kw">const</span> <span class="fn">fetchTrends</span> = <span class="kw">async</span> () =&gt; {
+  <span class="kw">const</span> token = <span class="kw">await</span> user.<span class="fn">getIdToken</span>();
+  <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">"/api/trends"</span>, {
+    method: <span class="str">"POST"</span>,
+    headers: { <span class="str">"Content-Type"</span>: <span class="str">"application/json"</span>, Authorization: <span class="str">`Bearer ${token}`</span> },
+    body: <span class="fn">JSON.stringify</span>({ industry, platform, limit: <span class="nr">5</span> })
+  });
+  <span class="kw">const</span> { trends } = <span class="kw">await</span> res.<span class="fn">json</span>();
+  <span class="fn">setTrends</span>(trends); <span class="cm">// Array of { title, description, hashtags[] }</span>
+};</code></pre>
+
+            <div class="sub">ImageEditor / Pexels Picker</div>
+            <p>Searches the Pexels API for stock photos matching the user's topic and renders a responsive grid for
+                selection. The selected image URL is stored with the post.</p>
+            <div class="label">components/visuals/ImageEditor.tsx</div>
+            <pre><code><span class="kw">const</span> <span class="fn">searchImages</span> = <span class="kw">async</span> (query: <span class="tp">string</span>) =&gt; {
+  <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(
+    <span class="str">`https://api.pexels.com/v1/search?query=${query}&amp;per_page=12`</span>,
+    { headers: { Authorization: process.env.<span class="fn">NEXT_PUBLIC_PEXELS_API_KEY</span>! } }
+  );
+  <span class="kw">const</span> data = <span class="kw">await</span> res.<span class="fn">json</span>();
+  <span class="fn">setImages</span>(data.photos.<span class="fn">map</span>((p: <span class="kw">any</span>) =&gt; p.src.large));
+};</code></pre>
+        </div>
+
+        <p
+            style="text-align:center;color:#374151;font-size:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--border)">
+            MarketingAI — Frontend Code Report &nbsp;|&nbsp; Next.js 16 + TypeScript + Tailwind CSS &nbsp;|&nbsp; March
+            2026
+        </p>
+    </div>
+</body>
+
+</html>

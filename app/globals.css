@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+:root {
+  /* Premium Vibrant Palette - Light Mode (HSL) */
+  --background: 0 0% 100%;
+  --foreground: 224 71.4% 4.1%;
+
+  --primary: 262 83% 58%;
+  /* Vibrant Indigo/Purple */
+  --primary-foreground: 210 20% 98%;
+
+  --secondary: 330 81% 60%;
+  /* Vibrant Pink/Rose */
+  --secondary-foreground: 210 20% 98%;
+
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+
+  --border: 214.3 31.8% 91.4%;
+
+  --radius: 1rem;
+}
+
+.dark {
+  /* Deep Modern Palette - Dark Mode (HSL) */
+  --background: 224 71.4% 4.1%;
+  --foreground: 210 20% 98%;
+
+  --primary: 263 70% 50%;
+  --primary-foreground: 210 20% 98%;
+
+  --secondary: 330 81% 60%;
+  --secondary-foreground: 210 20% 98%;
+
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 20% 98%;
+
+  --border: 217.2 32.6% 17.5%;
+}
+
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-border: hsl(var(--border));
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Utilities */
+.glass {
+  background: hsla(var(--background), 0.7);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid hsla(var(--foreground), 0.1);
+  box-shadow: 0 8px 32px 0 hsla(0, 0%, 0%, 0.05);
+}
+
+.dark .glass {
+  background: hsla(224, 71%, 4%, 0.6);
+  border: 1px solid hsla(210, 20%, 98%, 0.08);
+  box-shadow: 0 8px 32px 0 hsla(0, 0%, 0%, 0.3);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.btn-premium {
+  @apply relative overflow-hidden transition-all duration-300 active:scale-95;
+  background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%);
+  box-shadow: 0 4px 15px -1px hsla(var(--primary), 0.3);
+}
+
+.btn-premium:hover {
+  @apply shadow-lg transform -translate-y-0.5;
+  box-shadow: 0 8px 25px -2px hsla(var(--primary), 0.4);
+}
